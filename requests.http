@@ -1,0 +1,68 @@
+@baseUrl = http://localhost:3000
+@apiKey = kantin-rahasia-123
+
+### 1. GET daftar menu (200)
+GET {{baseUrl}}/menu
+
+### 2. GET daftar menu dengan filter kategori (200)
+GET {{baseUrl}}/menu?kategori=minuman
+
+### 3. GET detail menu yang ada (200)
+GET {{baseUrl}}/menu/1
+
+### 4. GET detail menu yang tidak ada (404)
+GET {{baseUrl}}/menu/999
+
+### 5. GET URL tidak dikenal (404 ROUTE_NOT_FOUND)
+GET {{baseUrl}}/tidak-ada
+
+### 6. POST menu tanpa API key (401)
+POST {{baseUrl}}/menu
+Content-Type: application/json
+
+{
+  "nama": "Ayam Taliwang",
+  "harga": 22000,
+  "kategori": "makanan"
+}
+
+### 7. POST menu gagal validasi Joi (422)
+POST {{baseUrl}}/menu
+Content-Type: application/json
+x-api-key: {{apiKey}}
+
+{
+  "nama": "Es",
+  "harga": 100,
+  "kategori": "jus"
+}
+
+### 8. POST menu valid (201)
+POST {{baseUrl}}/menu
+Content-Type: application/json
+x-api-key: {{apiKey}}
+
+{
+  "nama": "Ayam Taliwang",
+  "harga": 22000,
+  "kategori": "makanan"
+}
+
+### 9. POST menu nama duplikat (409)
+POST {{baseUrl}}/menu
+Content-Type: application/json
+x-api-key: {{apiKey}}
+
+{
+  "nama": "ayam taliwang",
+  "harga": 22000,
+  "kategori": "makanan"
+}
+
+### 10. DELETE menu yang ada (204)
+DELETE {{baseUrl}}/menu/6
+x-api-key: {{apiKey}}
+
+### 11. DELETE menu yang tidak ada (404)
+DELETE {{baseUrl}}/menu/999
+x-api-key: {{apiKey}}
